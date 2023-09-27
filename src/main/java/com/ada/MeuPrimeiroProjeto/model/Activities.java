@@ -2,8 +2,10 @@ package com.ada.MeuPrimeiroProjeto.model;
 
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import java.time.LocalDate;
+import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 import jakarta.persistence.Id;
@@ -24,24 +26,12 @@ public class Activities {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer id;
 
-  @Column(name = "exercise", nullable = false)
-  private String exercise;
-
-  @Column(name = "reps", nullable = false)
-  private String reps;
-
-  @Column(name = "weight", nullable = false)
-  private Double weight;
-
-  @Column(name = "sets", nullable = false)
-  private Integer sets;
-
-  @Column(name = "rest", nullable = false)
-  private Integer rest;
-
   @Column(name = "date", nullable = false)
   private LocalDate date;
 
   @ManyToOne
   private User user;
+
+  @ManyToMany
+  private List<Exercise> exercises;
 }
