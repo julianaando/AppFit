@@ -4,6 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.*;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import java.time.LocalDate;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,12 +31,6 @@ public class Exercise {
   @Column(name = "weight")
   private Double weight;
 
-  @Column(name = "sets", nullable = false)
-  private Integer sets;
-
-  @Column(name = "rest", nullable = false)
-  private Integer rest;
-
-  @ManyToOne
-  private User user;
+  @ManyToOne()
+  private TypeExercise type;
 }

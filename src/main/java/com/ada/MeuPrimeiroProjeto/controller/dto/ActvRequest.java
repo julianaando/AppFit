@@ -1,6 +1,7 @@
 package com.ada.MeuPrimeiroProjeto.controller.dto;
 
 import java.time.LocalDate;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -9,5 +10,5 @@ import lombok.Getter;
 public class ActvRequest {
   private Integer userId;
   private LocalDate date;
-  private String exercise;
+  private List<Integer> exercisesIds;
 }

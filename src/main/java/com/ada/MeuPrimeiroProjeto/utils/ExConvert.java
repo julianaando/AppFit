@@ -1,6 +1,7 @@
 package com.ada.MeuPrimeiroProjeto.utils;
 
 import com.ada.MeuPrimeiroProjeto.controller.dto.ExRequest;
+import com.ada.MeuPrimeiroProjeto.controller.dto.ExResponse;
 import com.ada.MeuPrimeiroProjeto.model.Exercise;
 
 public class ExConvert {
@@ -10,10 +11,14 @@ public class ExConvert {
     exercise.setName(exRequest.getName());
     exercise.setReps(exRequest.getReps());
     exercise.setWeight(exRequest.getWeight());
-    exercise.setSets(exRequest.getSets());
-    exercise.setRest(exRequest.getRest());
 
     return exercise;
+  }
+
+  public static ExResponse toResponse(Exercise exercise) {
+    ExResponse exResponse = new ExResponse();
+
+    return exResponse;
   }
 
 }

@@ -12,9 +12,7 @@ public class ActvConvert {
   public static Activities toEntity(ActvRequest actvDTO, User user) {
     Activities actv = new Activities();
     actv.setUser(user);
-    actv.setExercise(actvDTO.getExercise());
     actv.setDate(actvDTO.getDate());
-
 
     return actv;
   }
@@ -23,10 +21,7 @@ public class ActvConvert {
     ActvResponse actvResponse = new ActvResponse();
     actvResponse.setId(actv.getId());
     actvResponse.setUser(actv.getUser());
-    actvResponse.setSets(actv.getSets());
-    actvResponse.setWeight(actv.getWeight());
-    actvResponse.setReps(actv.getReps());
-    actvResponse.setRest(actv.getRest());
+    actvResponse.setExercises(actv.getExercises());
 
     return actvResponse;
   }
