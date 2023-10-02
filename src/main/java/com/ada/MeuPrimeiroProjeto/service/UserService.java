@@ -2,10 +2,13 @@ package com.ada.MeuPrimeiroProjeto.service;
 
 import com.ada.MeuPrimeiroProjeto.controller.dto.UserRequest;
 import com.ada.MeuPrimeiroProjeto.controller.dto.UserResponse;
+import com.ada.MeuPrimeiroProjeto.controller.exception.PasswordValidationError;
 import com.ada.MeuPrimeiroProjeto.utils.UserConvert;
+import com.ada.MeuPrimeiroProjeto.utils.Validator;
 import java.util.List;
 import com.ada.MeuPrimeiroProjeto.model.User;
 import com.ada.MeuPrimeiroProjeto.repository.UserRepository;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -23,22 +26,52 @@ public class UserService {
     return UserConvert.toResponsePage(users);
   }
 
-  public UserResponse saveUser(UserRequest userDTO) {
+  public UserResponse saveUser(UserRequest userDTO) throws PasswordValidationError {
     User user = UserConvert.toEntity(userDTO);
+    user.setActive(true);
+    if(!Validator.passwordValidate(user.getPassword())) throw new PasswordValidationError("Senha fora do padrão");
     User userEntity = userRepository.save(user);
     return UserConvert.toResponse(userEntity);
   }
 
   public UserResponse getUserById(Integer id){
-    return UserConvert.toResponse(userRepository.findById(id).get());
+    Optional<User> userResponse =  userRepository.findById(id);
+    if(userResponse.isPresent()){
+      return UserConvert.toResponse(userResponse.get());
+    } else {
+      throw new RuntimeException("Usuário não encontrado!");
+    }
   }
 
   public UserResponse getUserByEmail(String email){
-    return UserConvert.toResponse(userRepository.findByEmail(email).get());
+    Optional<User> userResponse =  userRepository.findByEmail(email);
+    if(!Validator.emailValidate(email)) throw new RuntimeException("Email fora do padrão");
+    if(userResponse.isEmpty()) {
+      throw new RuntimeException("Email não encontrado!");
+    }
+    return UserConvert.toResponse(userResponse.get());
+
   }
 
   public List<UserResponse> getAllByName(String name){
+    List<User> userResponse =  userRepository.findAllByName(name);
+    if(userResponse.isEmpty()){
+      throw new RuntimeException("Nome não encontrado!");
+    }
     return UserConvert.toResponseList(userRepository.findAllByName(name));
+  }
+
+  public void deleteUser(Integer id){
+    User user = userRepository.findById(id).orElseThrow();
+    user.setActive(false);
+    userRepository.save(user);
+  }
+
+  public UserResponse updateUser(Integer id, UserRequest userRequest){
+    User user = UserConvert.toEntity(userRequest);
+    user.setId(id);
+    User userEntity = userRepository.save(user);
+    return UserConvert.toResponse(userEntity);
   }
 
 }

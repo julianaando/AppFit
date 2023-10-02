@@ -1,3 +1,4 @@
+/*
 package com.ada.MeuPrimeiroProjeto.repository;
 
 import com.ada.MeuPrimeiroProjeto.model.Activities;
@@ -12,8 +13,11 @@ public interface ActvRepository extends JpaRepository<Activities, Integer> {
 
   @Override
   Page<Activities> findAll(Pageable pageable);
-/*  Optional<Activities> findByExercise(String exercise);*/
+*/
+/*  Optional<Activities> findByExercise(String exercise);*//*
+
 
   List<Activities> findAllByUser(Integer userid);
   List<Activities> findAllByDate(LocalDate date);
 }
+*/

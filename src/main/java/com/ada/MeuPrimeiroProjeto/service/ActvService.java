@@ -1,3 +1,4 @@
+/*
 package com.ada.MeuPrimeiroProjeto.service;
 
 import com.ada.MeuPrimeiroProjeto.controller.dto.ActvRequest;
@@ -38,3 +39,4 @@ public class ActvService {
     return ActvConvert.toResponseList(actvRepository.findAllByDate(date));
   }
 }
+*/

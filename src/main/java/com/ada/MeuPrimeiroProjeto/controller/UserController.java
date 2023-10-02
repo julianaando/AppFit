@@ -2,6 +2,8 @@ package com.ada.MeuPrimeiroProjeto.controller;
 
 import com.ada.MeuPrimeiroProjeto.controller.dto.UserRequest;
 import com.ada.MeuPrimeiroProjeto.controller.dto.UserResponse;
+import com.ada.MeuPrimeiroProjeto.controller.exception.PasswordValidationError;
+import jakarta.validation.Valid;
 import java.net.URI;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,23 +40,38 @@ public class UserController {
   }
 
   @PostMapping
-  public ResponseEntity<UserResponse> saveUser(@RequestBody UserRequest userDTO){
+  public ResponseEntity<UserResponse> saveUser(
+      @Valid @RequestBody UserRequest userDTO
+  ) throws PasswordValidationError {
     UserResponse user =  userService.saveUser(userDTO);
     return ResponseEntity.created(URI.create("/user/"+user.getId())).body(user);
   }
 
   @GetMapping("/{id}")
-  public UserResponse getUser(@PathVariable Integer id){
-    return userService.getUserById(id);
+  public ResponseEntity<UserResponse> getUser(@PathVariable Integer id){
+    return ResponseEntity.ok(userService.getUserById(id));
   }
 
   @GetMapping("/email/{email}")
-  public UserResponse getUserByEmail(@PathVariable String email){
-    return userService.getUserByEmail(email);
+  public ResponseEntity<UserResponse> getUserByEmail(@PathVariable String email){
+    return ResponseEntity.ok(userService.getUserByEmail(email));
   }
 
   @GetMapping("/name/{name}")
-  public List<UserResponse> getAllByName(@PathVariable String name){
-    return userService.getAllByName(name);
+  public ResponseEntity<List<UserResponse>> getAllByName(@PathVariable String name){
+    return ResponseEntity.ok(userService.getAllByName(name));
+  }
+
+  @DeleteMapping("/{id}")
+  public ResponseEntity<UserResponse> deleteUser(@PathVariable Integer id){
+    userService.deleteUser(id);
+    return ResponseEntity.noContent().build();
+  }
+
+  @PutMapping("/{id}")
+  public ResponseEntity<UserResponse> updateUser(
+      @PathVariable Integer id,
+      @RequestBody UserRequest userRequest){
+    return ResponseEntity.ok(userService.updateUser(id, userRequest));
   }
 }

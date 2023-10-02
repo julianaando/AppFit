@@ -10,12 +10,14 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import org.hibernate.annotations.Where;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter @Setter
 @Entity
 @Table(name = "users")
+@Where(clause = "active is true")
 public class User {
 
   @Id
@@ -28,7 +30,9 @@ public class User {
   @Column(name = "email", nullable = false, unique = true)
   private String email;
 
-  @Column(name = "password",nullable = false)
-  private Integer password;
+  @Column(name = "password", nullable = false)
+  private String password;
+
+  private Boolean active;
 
 }

@@ -1,3 +1,4 @@
+/*
 package com.ada.MeuPrimeiroProjeto.controller;
 
 import com.ada.MeuPrimeiroProjeto.controller.dto.ActvRequest;
@@ -36,3 +37,4 @@ public class ActvController {
   }
 
 }
+*/

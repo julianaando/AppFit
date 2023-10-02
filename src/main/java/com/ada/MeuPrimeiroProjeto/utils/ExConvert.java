@@ -1,3 +1,4 @@
+/*
 package com.ada.MeuPrimeiroProjeto.utils;
 
 import com.ada.MeuPrimeiroProjeto.controller.dto.ExRequest;
@@ -22,3 +23,4 @@ public class ExConvert {
   }
 
 }
+*/
