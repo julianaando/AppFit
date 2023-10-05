@@ -1,7 +1,9 @@
 package com.ada.meuPrimeiroProjeto.controller;
 
 import com.ada.meuPrimeiroProjeto.controller.dto.LoginRequest;
-import com.ada.meuPrimeiroProjeto.controller.dto.LoginResponse;
+import com.ada.meuPrimeiroProjeto.controller.dto.TokenResponse;
+import com.ada.meuPrimeiroProjeto.controller.infra.security.TokenService;
+import com.ada.meuPrimeiroProjeto.model.User;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,23 +22,22 @@ public class AuthController {
   @Autowired
   private AuthenticationManager authenticationManager;
 
+  @Autowired
+  TokenService tokenService;
+
   @PostMapping
-  public ResponseEntity<LoginResponse> login(@RequestBody @Valid LoginRequest loginRequest) {
+  public ResponseEntity login(@RequestBody @Valid LoginRequest loginRequest) {
     var auth = new UsernamePasswordAuthenticationToken(
         loginRequest.getEmail(),
         loginRequest.getPassword()
     );
 
-    String message;
-
     try {
-      authenticationManager.authenticate(auth);
-      message = "Seu login foi realizado com sucesso!";
+      var authentication = authenticationManager.authenticate(auth);
+      var token = tokenService.tokenGenerate((User) authentication.getPrincipal());
+      return ResponseEntity.ok().body(new TokenResponse(token));
     } catch (AuthenticationException e) {
-      message = "Usuário ou senha incorretos";
+      return ResponseEntity.status(401).body("Usuário ou senha incorretos");
     }
-
-    LoginResponse response = new LoginResponse(message);
-    return ResponseEntity.ok(response);
   }
 }
