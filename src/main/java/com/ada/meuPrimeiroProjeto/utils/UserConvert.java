@@ -10,11 +10,11 @@ import org.springframework.data.domain.PageImpl;
 
 public class UserConvert {
 
-  public static User toEntity(UserRequest userDTO) {
+  public static User toEntity(UserRequest userRequest) {
     User user = new User();
-    user.setName(userDTO.getName());
-    user.setEmail(userDTO.getEmail());
-    user.setPassword(userDTO.getPassword());
+    user.setName(userRequest.getName());
+    user.setEmail(userRequest.getEmail());
+    user.setPassword(userRequest.getPassword());
     return user;
   }
 

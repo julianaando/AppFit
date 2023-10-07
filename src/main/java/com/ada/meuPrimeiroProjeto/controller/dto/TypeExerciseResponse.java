@@ -4,9 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Getter @Setter
-public class ExResponse {
+public class TypeExerciseResponse {
   private Integer id;
   private String name;
-  private String date;
-  private TypeExResponse type;
 }

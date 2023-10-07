@@ -7,7 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Getter @Setter
-public class ActvResponse {
+public class ActivitiesResponse {
   private Integer id;
   private User user;
   private List<Exercise> exercises;

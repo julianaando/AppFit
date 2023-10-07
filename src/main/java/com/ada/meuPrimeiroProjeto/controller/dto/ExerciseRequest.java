@@ -1,12 +1,11 @@
 package com.ada.meuPrimeiroProjeto.controller.dto;
 
 import java.time.LocalDate;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
-public class ExRequest {
+public class ExerciseRequest {
   private String name;
-  private String date;
+  private LocalDate date;
   private Integer typeId;
 }

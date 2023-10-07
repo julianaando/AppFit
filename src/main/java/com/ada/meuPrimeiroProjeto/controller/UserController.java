@@ -41,9 +41,9 @@ public class UserController {
 
   @PostMapping
   public ResponseEntity<UserResponse> saveUser(
-      @Valid @RequestBody UserRequest userDTO
+      @Valid @RequestBody UserRequest userRequest
   ) throws PasswordValidationError {
-    UserResponse user =  userService.saveUser(userDTO);
+    UserResponse user =  userService.saveUser(userRequest);
     return ResponseEntity.created(URI.create("/user/"+user.getId())).body(user);
   }
 
