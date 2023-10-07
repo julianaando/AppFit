@@ -4,18 +4,12 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.*;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import java.time.LocalDate;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@AllArgsConstructor
-@NoArgsConstructor
-@Getter
-@Setter
 @Entity
 @Table(name = "exercises")
+@Getter @Setter
 public class Exercise {
 
   @Id
@@ -26,7 +20,7 @@ public class Exercise {
   private String name;
 
   @Column(name = "date", nullable = false)
-  private LocalDate date;
+  private String date;
 
   @ManyToOne()
   private TypeExercise type;

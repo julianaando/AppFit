@@ -1,19 +1,19 @@
-/*
-package com.ada.MeuPrimeiroProjeto.utils;
+package com.ada.meuPrimeiroProjeto.utils;
 
-import com.ada.MeuPrimeiroProjeto.controller.dto.ActvRequest;
-import com.ada.MeuPrimeiroProjeto.controller.dto.ActvResponse;
-import com.ada.MeuPrimeiroProjeto.model.Activities;
-import com.ada.MeuPrimeiroProjeto.model.User;
+import com.ada.meuPrimeiroProjeto.controller.dto.ActvRequest;
+import com.ada.meuPrimeiroProjeto.controller.dto.ActvResponse;
+import com.ada.meuPrimeiroProjeto.model.Activities;
+import com.ada.meuPrimeiroProjeto.model.Exercise;
+import com.ada.meuPrimeiroProjeto.model.User;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ActvConvert {
 
-  public static Activities toEntity(ActvRequest actvDTO, User user) {
+  public static Activities toEntity(User user, List<Exercise> exercises) {
     Activities actv = new Activities();
     actv.setUser(user);
-    actv.setDate(actvDTO.getDate());
+    actv.setExercises(exercises);
 
     return actv;
   }
@@ -27,9 +27,9 @@ public class ActvConvert {
     return actvResponse;
   }
 
-  public static List<ActvResponse> toResponseList(List<Activities> actvs) {
+  public static List<ActvResponse> toResponseList(List<Activities> activities) {
     List<ActvResponse> actvResponse = new ArrayList<>();
-    for (Activities actv : actvs) {
+    for (Activities actv : activities) {
       actvResponse.add(toResponse(actv));
     }
 
@@ -37,4 +37,3 @@ public class ActvConvert {
   }
 
 }
-*/

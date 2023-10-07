@@ -1,13 +1,12 @@
-/*
-package com.ada.MeuPrimeiroProjeto.controller;
+package com.ada.meuPrimeiroProjeto.controller;
 
-import com.ada.MeuPrimeiroProjeto.controller.dto.ActvRequest;
-import com.ada.MeuPrimeiroProjeto.controller.dto.ActvResponse;
-import com.ada.MeuPrimeiroProjeto.model.Activities;
-import com.ada.MeuPrimeiroProjeto.service.ActvService;
-import java.time.LocalDate;
+import com.ada.meuPrimeiroProjeto.controller.dto.ActvRequest;
+import com.ada.meuPrimeiroProjeto.controller.dto.ActvResponse;
+import com.ada.meuPrimeiroProjeto.service.ActvService;
+import java.net.URI;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -18,23 +17,18 @@ public class ActvController {
   ActvService actvService;
 
   @PostMapping
-  public ActvResponse saveActv(@RequestBody ActvRequest actvRequest){
-    return actvService.saveActv(actvRequest);
+  public ResponseEntity<ActvResponse> saveActv(@RequestBody ActvRequest actvRequest) {
+    ActvResponse actvResponse = actvService.saveActv(actvRequest);
+    return ResponseEntity.created(URI.create("/activities/" + actvResponse.getId()))
+      .body(actvResponse);
   }
 
   @GetMapping
-  public List<ActvResponse> getActv(
+  public ResponseEntity<List<ActvResponse>> getActv(
     @RequestParam(name = "userId", required = false) Integer userId,
-    @RequestParam(name = "date", required = false) LocalDate date
-  ){
-    if (userId != null) {
-      return actvService.getAllByUser(userId);
-    } else if (date != null) {
-      return actvService.getAllByDate(date);
-    } else {
-      return null;
-    }
+    @RequestParam(name = "exerciseId", required = false) Integer exerciseId
+  ) {
+    return ResponseEntity.ok(actvService.getAllActivities(userId, exerciseId));
   }
 
 }
-*/

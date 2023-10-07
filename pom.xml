@@ -11,7 +11,7 @@
 	<groupId>com.ada</groupId>
 	<artifactId>AppFit</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>MeuPrimeiroProjeto</name>
+	<name>meuPrimeiroProjeto</name>
 	<description>Primeiro projeto utilizando Spring</description>
 	<properties>
 		<java.version>17</java.version>

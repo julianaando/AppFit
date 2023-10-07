@@ -5,9 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
-@AllArgsConstructor
 public class ExRequest {
   private String name;
-  private LocalDate date;
+  private String date;
   private Integer typeId;
 }

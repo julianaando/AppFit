@@ -5,6 +5,7 @@ import com.ada.meuPrimeiroProjeto.controller.dto.TypeExResponse;
 import com.ada.meuPrimeiroProjeto.model.TypeExercise;
 import com.ada.meuPrimeiroProjeto.repository.TypeExRepository;
 import com.ada.meuPrimeiroProjeto.utils.TypeExConvert;
+import java.lang.reflect.Type;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,13 @@ public class TypeExService {
       TypeExConvert.toEntity(typeExRequest)
     );
     return TypeExConvert.toResponse(typeExercise);
+  }
+
+  public TypeExResponse updateTypeExercise(Integer id, TypeExRequest typeExRequest) {
+    TypeExercise type = TypeExConvert.toEntity(typeExRequest);
+    type.setId(id);
+    TypeExercise typeEntity = typeExRepository.save(type);
+    return TypeExConvert.toResponse(typeEntity);
   }
 
   public void deleteTypeExercise(Integer id){

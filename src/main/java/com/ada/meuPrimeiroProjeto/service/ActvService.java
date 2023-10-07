@@ -1,17 +1,17 @@
-/*
-package com.ada.MeuPrimeiroProjeto.service;
+package com.ada.meuPrimeiroProjeto.service;
 
-import com.ada.MeuPrimeiroProjeto.controller.dto.ActvRequest;
-import com.ada.MeuPrimeiroProjeto.controller.dto.ActvResponse;
-import com.ada.MeuPrimeiroProjeto.model.Activities;
-import com.ada.MeuPrimeiroProjeto.model.User;
-import com.ada.MeuPrimeiroProjeto.repository.ActvRepository;
-import com.ada.MeuPrimeiroProjeto.repository.UserRepository;
-import com.ada.MeuPrimeiroProjeto.utils.ActvConvert;
-import java.time.LocalDate;
+import com.ada.meuPrimeiroProjeto.controller.dto.ActvRequest;
+import com.ada.meuPrimeiroProjeto.controller.dto.ActvResponse;
+import com.ada.meuPrimeiroProjeto.model.Activities;
+import com.ada.meuPrimeiroProjeto.model.Exercise;
+import com.ada.meuPrimeiroProjeto.model.User;
+import com.ada.meuPrimeiroProjeto.repository.ActvRepository;
+import com.ada.meuPrimeiroProjeto.repository.ExRepository;
+import com.ada.meuPrimeiroProjeto.repository.UserRepository;
+import com.ada.meuPrimeiroProjeto.utils.ActvConvert;
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -20,23 +20,44 @@ public class ActvService {
   ActvRepository actvRepository;
 
   @Autowired
+  ExRepository exRepository;
+
+  @Autowired
   UserRepository userRepository;
 
 
   public ActvResponse saveActv(ActvRequest actvRequest) {
     User user = userRepository.findById(actvRequest.getUserId()).get();
 
-    Activities actv = ActvConvert.toEntity(actvRequest, user);
+    List<Exercise> exercises = new ArrayList<>();
+    List<Integer> exercisesId = actvRequest.getExercisesIds();
+
+    for (Integer id : exercisesId) {
+      Exercise exercise = exRepository.findById(id).get();
+      exercises.add(exercise);
+    }
+
+    Activities actv = ActvConvert.toEntity(user, exercises);
 
     return ActvConvert.toResponse(actvRepository.save(actv));
   }
 
-  public List<ActvResponse> getAllByUser(Integer userid) {
-    return ActvConvert.toResponseList(actvRepository.findAllByUser(userid));
+  public List<ActvResponse> getAllActivities(Integer userId, Integer exerciseId) {
+    if (userId != null) {
+      return getAllByUser(userId);
+    } else if (exerciseId != null) {
+      return getAllByExercise(exerciseId);
+    } else {
+      return ActvConvert.toResponseList(actvRepository.findAll());
+    }
   }
 
-  public List<ActvResponse> getAllByDate(LocalDate date) {
-    return ActvConvert.toResponseList(actvRepository.findAllByDate(date));
+  public List<ActvResponse> getAllByUser(Integer userId) {
+    return ActvConvert.toResponseList(actvRepository.findAllByUser(userId));
   }
+
+  public List<ActvResponse> getAllByExercise(Integer exerciseId) {
+    return ActvConvert.toResponseList(actvRepository.findAllByExercise(exerciseId));
+  }
+
 }
-*/

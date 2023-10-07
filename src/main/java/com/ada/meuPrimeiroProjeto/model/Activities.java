@@ -15,19 +15,13 @@ import lombok.AllArgsConstructor;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 
-@AllArgsConstructor
-@NoArgsConstructor
 @Getter @Setter
 @Entity
 @Table(name = "activities")
 public class Activities {
-
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer id;
-
-  @Column(name = "date", nullable = false)
-  private LocalDate date;
 
   @ManyToOne
   private User user;

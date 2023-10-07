@@ -9,6 +9,5 @@ import lombok.Getter;
 @AllArgsConstructor
 public class ActvRequest {
   private Integer userId;
-  private LocalDate date;
   private List<Integer> exercisesIds;
 }
