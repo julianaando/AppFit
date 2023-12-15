@@ -1,3 +1,4 @@
+/*
 package com.ada.meuPrimeiroProjeto.controller;
 
 import com.ada.meuPrimeiroProjeto.controller.dto.LoginRequest;
@@ -41,3 +42,4 @@ public class AuthController {
     }
   }
 }
+*/

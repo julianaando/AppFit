@@ -12,7 +12,6 @@ public class ExerciseConvert {
   public static Exercise toEntity(ExerciseRequest exerciseRequest, TypeExercise typeExercise) {
     Exercise exercise = new Exercise();
     exercise.setName(exerciseRequest.getName());
-    exercise.setDate(exerciseRequest.getDate());
     exercise.setType(typeExercise);
 
     return exercise;
@@ -22,19 +21,19 @@ public class ExerciseConvert {
     ExerciseResponse exerciseResponse = new ExerciseResponse();
     exerciseResponse.setId(exercise.getId());
     exerciseResponse.setName(exercise.getName());
-    exerciseResponse.setDate(exercise.getDate());
     exerciseResponse.setType(TypeExerciseConvert.toResponse(exercise.getType()));
 
     return exerciseResponse;
   }
 
   public static List<ExerciseResponse> toResponseList(List<Exercise> exercises) {
-    List<ExerciseResponse> exerciseResponse = new ArrayList<>();
+    List<ExerciseResponse> exerciseResponses = new ArrayList<>();
     for (Exercise exercise : exercises) {
-      exerciseResponse.add(toResponse(exercise));
+      ExerciseResponse exerciseResponse = ExerciseConvert.toResponse(exercise);
+      exerciseResponses.add(exerciseResponse);
     }
 
-    return exerciseResponse;
+    return exerciseResponses;
   }
 
 }

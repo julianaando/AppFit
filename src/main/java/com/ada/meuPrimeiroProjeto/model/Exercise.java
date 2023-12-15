@@ -7,10 +7,12 @@ import jakarta.persistence.Table;
 import java.time.LocalDate;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Where;
 
 @Entity
 @Table(name = "exercises")
 @Getter @Setter
+@Where(clause = "active is true")
 public class Exercise {
 
   @Id
@@ -20,8 +22,7 @@ public class Exercise {
   @Column(name = "name", nullable = false)
   private String name;
 
-  @Column(name = "date", nullable = false)
-  private LocalDate date;
+  private Boolean active;
 
   @ManyToOne()
   private TypeExercise type;

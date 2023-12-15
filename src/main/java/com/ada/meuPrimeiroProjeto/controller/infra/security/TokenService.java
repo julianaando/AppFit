@@ -1,3 +1,4 @@
+/*
 package com.ada.meuPrimeiroProjeto.controller.infra.security;
 
 import com.ada.meuPrimeiroProjeto.model.User;
@@ -16,7 +17,14 @@ public class TokenService {
   @Value("${config.token.secret}")
   private String secret;
 
+  @Value("${app.auth.enabled}")
+  private Boolean authEnabled;
+
   public String tokenGenerate(User user){
+    if (!authEnabled) {
+      return "example-token";
+    }
+
     try {
       Algorithm algorithm = Algorithm.HMAC512(secret);
       return JWT.create()
@@ -32,6 +40,9 @@ public class TokenService {
   }
 
   public String getSubject(String token) {
+    if (!authEnabled) {
+      return "example-token";
+    }
     try {
       Algorithm algorithm = Algorithm.HMAC512(secret);
 
@@ -46,3 +57,4 @@ public class TokenService {
   }
 
 }
+*/

@@ -1,3 +1,4 @@
+/*
 package com.ada.meuPrimeiroProjeto.controller.dto;
 
 import jakarta.validation.constraints.Email;
@@ -9,3 +10,4 @@ public class LoginRequest {
   private String email;
   private String password;
 }
+*/

@@ -1,3 +1,4 @@
+/*
 package com.ada.meuPrimeiroProjeto.controller.configuration;
 
 import com.ada.meuPrimeiroProjeto.controller.exception.PasswordValidationError;
@@ -40,3 +41,4 @@ public class ControllerAdvice {
     return exception.getDescription();
   }
 }
+*/

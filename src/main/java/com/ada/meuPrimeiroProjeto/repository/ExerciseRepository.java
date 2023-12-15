@@ -10,10 +10,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ExerciseRepository extends JpaRepository<Exercise, Integer> {
-
-  @Query("SELECT e FROM Exercise e WHERE e.type.id = :type")
-  List<Exercise> findExerciseByType(@Param("type") Integer typeExercise);
-
-  @Query("SELECT d FROM Exercise d WHERE d.date = :date")
-  List<Exercise> findExerciseByDate(@Param("date") LocalDate date);
+  @Override
+  @Query(value = "SELECT * FROM EXERCISES WHERE ACTIVE = TRUE", nativeQuery = true)
+  List<Exercise> findAll();
 }

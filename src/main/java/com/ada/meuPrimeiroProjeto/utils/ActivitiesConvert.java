@@ -1,5 +1,6 @@
 package com.ada.meuPrimeiroProjeto.utils;
 
+import com.ada.meuPrimeiroProjeto.controller.dto.ActivitiesRequest;
 import com.ada.meuPrimeiroProjeto.controller.dto.ActivitiesResponse;
 import com.ada.meuPrimeiroProjeto.model.Activities;
 import com.ada.meuPrimeiroProjeto.model.Exercise;
@@ -9,10 +10,11 @@ import java.util.List;
 
 public class ActivitiesConvert {
 
-  public static Activities toEntity(User user, List<Exercise> exercises) {
+  public static Activities toEntity(User user, List<Exercise> exercises, ActivitiesRequest activitiesRequest) {
     Activities actv = new Activities();
     actv.setUser(user);
     actv.setExercises(exercises);
+    actv.setDate(activitiesRequest.getDate());
 
     return actv;
   }
@@ -22,6 +24,7 @@ public class ActivitiesConvert {
     activitiesResponse.setId(actv.getId());
     activitiesResponse.setUser(actv.getUser());
     activitiesResponse.setExercises(actv.getExercises());
+    activitiesResponse.setDate(actv.getDate());
 
     return activitiesResponse;
   }

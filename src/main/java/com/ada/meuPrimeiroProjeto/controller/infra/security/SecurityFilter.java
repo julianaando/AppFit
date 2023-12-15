@@ -1,3 +1,4 @@
+/*
 package com.ada.meuPrimeiroProjeto.controller.infra.security;
 
 import com.ada.meuPrimeiroProjeto.repository.UserRepository;
@@ -55,3 +56,4 @@ public class SecurityFilter extends OncePerRequestFilter {
     SecurityContextHolder.getContext().setAuthentication(authenticationToken);
   }
 }
+*/

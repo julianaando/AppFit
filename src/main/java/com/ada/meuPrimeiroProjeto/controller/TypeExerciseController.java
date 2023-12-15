@@ -20,8 +20,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/type-exercise")
 public class TypeExerciseController {
 
+  private final TypeExerciseService typeExerciseService;
+
   @Autowired
-  TypeExerciseService typeExerciseService;
+  public TypeExerciseController(TypeExerciseService typeExerciseService){
+    this.typeExerciseService = typeExerciseService;
+  }
 
   @GetMapping
   public ResponseEntity<List<TypeExerciseResponse>> getAllTypeExercise(){
@@ -29,7 +33,9 @@ public class TypeExerciseController {
   }
 
   @PostMapping
-  public ResponseEntity<TypeExerciseResponse> saveTypeExercise(@RequestBody TypeExerciseRequest typeExerciseRequest){
+  public ResponseEntity<TypeExerciseResponse> saveTypeExercise(
+    @RequestBody TypeExerciseRequest typeExerciseRequest
+  ){
     TypeExerciseResponse typeExerciseResponse = typeExerciseService.saveTypeExercise(typeExerciseRequest);
     return ResponseEntity.created(
         URI.create("/type-exercise/"+ typeExerciseResponse.getId())

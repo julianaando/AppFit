@@ -1,3 +1,4 @@
+/*
 package com.ada.meuPrimeiroProjeto.service;
 
 import com.ada.meuPrimeiroProjeto.repository.UserRepository;
@@ -18,3 +19,4 @@ public class AuthService implements UserDetailsService {
     return userRepository.findByEmail(email);
   }
 }
+*/
