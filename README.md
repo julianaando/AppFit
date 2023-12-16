@@ -1,7 +1,7 @@
 ## Projeto AppFit 🏋️
 
 ---
-#### ⏳ Desenvolvido durante o módulo Programação Web II no curso Back-end Java da [Ada](https://ada.tech/)
+#### ⏳ Desenvolvido durante os módulos Programação Web II e Testes Automatizados I no curso Back-end Java da [Ada](https://ada.tech/)
 
 ---
 ### ⚙️ Como executar:
@@ -13,11 +13,23 @@ Entre na pasta que você acabou de clonar, e instale as dependências
 ```
 mvn install
 ```
+Suba o container do docker
+```
+docker-compose up
+```
+Rode o projeto para verificar ...
+
+TODO: pode testar com o POSTMAN
 
 ### 📝 Proposta:
-Criação de uma API REST que simula um aplicativo de controle de atividades físicas, filtradas por data e tipos de exercícios. 
-Um endpoint CRUD para o usuário será usado no login da aplicação.
-Endpoints de buscas que recebem filtros opcionais realizam consultas na camada de dados.
+Criação de uma API REST que simula um aplicativo de controle de atividades físicas, filtradas por data e tipos de exercícios.<br>
+Um endpoint CRUD para o usuário será usado no login da aplicação.<br>
+Endpoints de buscas que recebem filtros opcionais realizam consultas na camada de dados.<br>
+
+### :woman_technologist: Testes Automatizados
+Testes unitários para a parte lógica.<br>
+Testes de integração para repositórios e web.<br>
+Teste [end-to-end](https://github.com/julianaando/Appfit-tests) através da ferramenta Cucumber.<br>
 
 ----
 ### 💡 Conhecimentos aplicados:
@@ -26,10 +38,9 @@ Endpoints de buscas que recebem filtros opcionais realizam consultas na camada d
 - JWT Web Token;
 - Spring Data;
 - Spring Security;
-- Banco de Dados H2;
+- Banco de Dados H2 e PostgreSQL;
 - Hibernate
-
----
-#### 🔗 LinkedIn [@julianaandodecezare](https://www.linkedin.com/in/julianaandodecezare/)
-
+- JUnit
+- Cucumber
+- JaCoCo
 ---
