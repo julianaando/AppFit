@@ -8,6 +8,5 @@ import lombok.Setter;
 public class ExerciseResponse {
   private Integer id;
   private String name;
-  private LocalDate date;
   private TypeExerciseResponse type;
 }

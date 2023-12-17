@@ -36,13 +36,4 @@ public class UserConvert {
     return userResponses;
   }
 
-  public static Page<UserResponse> toResponsePage(Page<User> users){
-    List<UserResponse> userResponses = new ArrayList<>();
-    for (User user : users) {
-      UserResponse userResponse = UserConvert.toResponse(user);
-      userResponses.add(userResponse);
-    }
-    return new PageImpl<>(userResponses);
-  }
-
 }

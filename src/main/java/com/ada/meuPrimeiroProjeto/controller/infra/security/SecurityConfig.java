@@ -1,3 +1,4 @@
+/*
 package com.ada.meuPrimeiroProjeto.controller.infra.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,11 +36,12 @@ public class SecurityConfig {
         .csrf(csrf -> csrf.disable())
         .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
         .authorizeHttpRequests((requests) -> requests
-            .requestMatchers(mvcMatcherBuilder.pattern(HttpMethod.GET,"/")).permitAll()
+*/
+/*            .requestMatchers(mvcMatcherBuilder.pattern(HttpMethod.GET,"/")).permitAll()
             .requestMatchers(mvcMatcherBuilder.pattern(HttpMethod.POST, "/user")).permitAll()
-            .requestMatchers(mvcMatcherBuilder.pattern(HttpMethod.POST, "/login")).permitAll()
-            .requestMatchers(mvcMatcherBuilder.pattern(HttpMethod.GET, "/user")).hasRole("ADMIN")
-            .anyRequest().authenticated())
+            .requestMatchers(mvcMatcherBuilder.pattern(HttpMethod.POST, "/login")).permitAll()*//*
+
+            .anyRequest().permitAll())
         .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
         .build();
   }
@@ -56,3 +58,4 @@ public class SecurityConfig {
     return new BCryptPasswordEncoder();
   }
 }
+*/

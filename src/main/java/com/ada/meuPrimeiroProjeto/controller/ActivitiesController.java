@@ -23,12 +23,16 @@ public class ActivitiesController {
       .body(activitiesResponse);
   }
 
+  @GetMapping("/{id}")
+  public ResponseEntity<ActivitiesResponse> getActivitiesById(@PathVariable Integer id) {
+    return ResponseEntity.ok(activitiesService.getActivitiesById(id));
+  }
+
   @GetMapping
-  public ResponseEntity<List<ActivitiesResponse>> getActivities(
-    @RequestParam(name = "userId", required = false) Integer userId,
-    @RequestParam(name = "exerciseId", required = false) Integer exerciseId
+  public ResponseEntity<List<ActivitiesResponse>> getAllActivities(
+    @RequestParam(name = "userId", required = false) Integer userId
   ) {
-    return ResponseEntity.ok(activitiesService.getAllActivities(userId, exerciseId));
+    return ResponseEntity.ok(activitiesService.getAllActivities(userId));
   }
 
 }

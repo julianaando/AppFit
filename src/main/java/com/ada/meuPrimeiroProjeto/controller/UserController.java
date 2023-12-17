@@ -3,11 +3,11 @@ package com.ada.meuPrimeiroProjeto.controller;
 import com.ada.meuPrimeiroProjeto.controller.dto.UserRequest;
 import com.ada.meuPrimeiroProjeto.controller.dto.UserResponse;
 import com.ada.meuPrimeiroProjeto.controller.exception.PasswordValidationError;
+import com.ada.meuPrimeiroProjeto.interfaces.IUserService;
 import jakarta.validation.Valid;
 import java.net.URI;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.ada.meuPrimeiroProjeto.service.UserService;
@@ -15,28 +15,17 @@ import com.ada.meuPrimeiroProjeto.service.UserService;
 @RestController
 @RequestMapping("/user")
 public class UserController {
+
+  private final IUserService userService;
+
   @Autowired
-  UserService userService;
+  public UserController(IUserService userService){
+    this.userService = userService;
+  }
 
   @RequestMapping
-  public ResponseEntity<Page<UserResponse>>getUsers(
-      @RequestParam(
-          value = "page",
-          required = false,
-          defaultValue = "0"
-      ) int page,
-      @RequestParam(
-          value = "size",
-          required = false,
-          defaultValue = "10"
-      ) int size,
-      @RequestParam(
-          value = "direction",
-          required = false,
-          defaultValue = "ASC"
-      ) String direction
-  ){
-    return ResponseEntity.ok(userService.getUsers(page, size, direction));
+  public ResponseEntity<List<UserResponse>> getUsers(){
+    return ResponseEntity.ok(userService.getUsers());
   }
 
   @PostMapping
