@@ -2,7 +2,9 @@ package com.ada.meuPrimeiroProjeto.controller;
 
 import com.ada.meuPrimeiroProjeto.controller.dto.UserRequest;
 import com.ada.meuPrimeiroProjeto.controller.dto.UserResponse;
+import com.ada.meuPrimeiroProjeto.controller.exception.EmailNotFoundException;
 import com.ada.meuPrimeiroProjeto.controller.exception.PasswordValidationError;
+import com.ada.meuPrimeiroProjeto.controller.exception.ValidationError;
 import com.ada.meuPrimeiroProjeto.interfaces.IUserService;
 import jakarta.validation.Valid;
 import java.net.URI;
@@ -29,11 +31,15 @@ public class UserController {
   }
 
   @PostMapping
-  public ResponseEntity<UserResponse> saveUser(
-      @Valid @RequestBody UserRequest userRequest
-  ) throws PasswordValidationError {
-    UserResponse user =  userService.saveUser(userRequest);
-    return ResponseEntity.created(URI.create("/user/"+user.getId())).body(user);
+  public ResponseEntity<?>saveUser(
+    @Valid @RequestBody UserRequest userRequest
+  ) {
+    try {
+      UserResponse user = userService.saveUser(userRequest);
+      return ResponseEntity.created(URI.create("/user/" + user.getId())).body(user);
+    } catch (PasswordValidationError e) {
+      return ResponseEntity.badRequest().body(new ValidationError("password", e.getMessage()));
+    }
   }
 
   @GetMapping("/{id}")
@@ -42,8 +48,12 @@ public class UserController {
   }
 
   @GetMapping("/email/{email}")
-  public ResponseEntity<UserResponse> getUserByEmail(@PathVariable String email){
-    return ResponseEntity.ok(userService.getUserByEmail(email));
+  public ResponseEntity<?> getUserByEmail(@PathVariable String email){
+    try {
+      return ResponseEntity.ok(userService.getUserByEmail(email));
+    } catch (EmailNotFoundException e) {
+      return ResponseEntity.badRequest().body(new ValidationError("email", e.getMessage()));
+    }
   }
 
   @GetMapping("/name/{name}")

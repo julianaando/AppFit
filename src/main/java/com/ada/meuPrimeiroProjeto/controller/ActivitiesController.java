@@ -13,8 +13,12 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/activities")
 public class ActivitiesController {
 
+  private final ActivitiesService activitiesService;
+
   @Autowired
-  ActivitiesService activitiesService;
+  public ActivitiesController(ActivitiesService activitiesService) {
+    this.activitiesService = activitiesService;
+  }
 
   @PostMapping
   public ResponseEntity<ActivitiesResponse> saveActivities(@RequestBody ActivitiesRequest activitiesRequest) {

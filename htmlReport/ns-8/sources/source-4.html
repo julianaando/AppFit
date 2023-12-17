@@ -1,0 +1,160 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > TypeExerciseService</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.ada.meuPrimeiroProjeto.service</a>
+</div>
+
+<h1>Coverage Summary for Class: TypeExerciseService (com.ada.meuPrimeiroProjeto.service)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">TypeExerciseService</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    20%
+  </span>
+  <span class="absValue">
+    (1/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    13.3%
+  </span>
+  <span class="absValue">
+    (2/15)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.ada.meuPrimeiroProjeto.service;
+&nbsp;
+&nbsp;import com.ada.meuPrimeiroProjeto.controller.dto.TypeExerciseRequest;
+&nbsp;import com.ada.meuPrimeiroProjeto.controller.dto.TypeExerciseResponse;
+&nbsp;import com.ada.meuPrimeiroProjeto.interfaces.ITypeExerciseService;
+&nbsp;import com.ada.meuPrimeiroProjeto.model.TypeExercise;
+&nbsp;import com.ada.meuPrimeiroProjeto.repository.TypeExerciseRepository;
+&nbsp;import com.ada.meuPrimeiroProjeto.utils.TypeExerciseConvert;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Optional;
+&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+&nbsp;import org.springframework.stereotype.Service;
+&nbsp;
+&nbsp;@Service
+&nbsp;public class TypeExerciseService implements ITypeExerciseService {
+&nbsp;
+&nbsp;  private final TypeExerciseRepository typeExerciseRepository;
+&nbsp;
+&nbsp;  @Autowired
+<b class="fc">&nbsp;  public TypeExerciseService(TypeExerciseRepository typeExerciseRepository) {</b>
+<b class="fc">&nbsp;    this.typeExerciseRepository = typeExerciseRepository;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public List&lt;TypeExerciseResponse&gt; getAllTypeExercises(){
+<b class="nc">&nbsp;    return TypeExerciseConvert.toResponseList(typeExerciseRepository.findAll());</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public TypeExerciseResponse saveTypeExercise(TypeExerciseRequest typeExerciseRequest){
+<b class="nc">&nbsp;    TypeExercise typeExercise = TypeExerciseConvert.toEntity(typeExerciseRequest);</b>
+<b class="nc">&nbsp;    if (typeExercise.getName() == null) {</b>
+<b class="nc">&nbsp;      throw new IllegalArgumentException(&quot;Nome do tipo de exercício não pode ser vazio!&quot;);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return TypeExerciseConvert.toResponse(typeExerciseRepository.save(typeExercise));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public TypeExerciseResponse updateTypeExercise(Integer id, TypeExerciseRequest typeExerciseRequest) {
+<b class="nc">&nbsp;    TypeExercise type = TypeExerciseConvert.toEntity(typeExerciseRequest);</b>
+<b class="nc">&nbsp;    type.setId(id);</b>
+<b class="nc">&nbsp;    TypeExercise typeEntity = typeExerciseRepository.save(type);</b>
+<b class="nc">&nbsp;    return TypeExerciseConvert.toResponse(typeEntity);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public void deleteTypeExercise(Integer id){
+<b class="nc">&nbsp;    Optional&lt;TypeExercise&gt; typeExerciseResponse = typeExerciseRepository.findById(id);</b>
+<b class="nc">&nbsp;    if (typeExerciseResponse.isPresent()) {</b>
+<b class="nc">&nbsp;      typeExerciseRepository.delete(typeExerciseResponse.get());</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      throw new RuntimeException(&quot;Tipo de exercício não encontrado!&quot;);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-12-17 20:37</div>
+</div>
+</body>
+</html>

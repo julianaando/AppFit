@@ -1,6 +1,8 @@
 package com.ada.meuPrimeiroProjeto.service;
 
+import com.ada.meuPrimeiroProjeto.controller.exception.EmailNotFoundException;
 import com.ada.meuPrimeiroProjeto.controller.exception.PasswordValidationError;
+import com.ada.meuPrimeiroProjeto.controller.exception.UserNotFoundException;
 import com.ada.meuPrimeiroProjeto.interfaces.IUserService;
 import com.ada.meuPrimeiroProjeto.controller.dto.UserRequest;
 import com.ada.meuPrimeiroProjeto.controller.dto.UserResponse;
@@ -29,10 +31,10 @@ public class UserService implements IUserService {
 
 
   @Override
-  public List<UserResponse> getUsers(){
+  public List<UserResponse> getUsers() throws UserNotFoundException{
     List<User> userResponse =  userRepository.findAll();
     if(userResponse.isEmpty()){
-      throw new RuntimeException("Não há usuários cadastrados!");
+      throw new UserNotFoundException("Não há usuários cadastrados!");
     }
     return UserConvert.toResponseList(userRepository.findAll());
   }
@@ -43,7 +45,6 @@ public class UserService implements IUserService {
     User user = UserConvert.toEntity(userRequest);
 
     if (!Validator.passwordValidate(user.getPassword())) throw new PasswordValidationError("Senha fora do padrão");
-
     String encodePassword = passwordEncoder.encode(user.getPassword());
     user.setPassword(encodePassword);
 
@@ -53,20 +54,20 @@ public class UserService implements IUserService {
   }
 
   @Override
-  public UserResponse getUserById(Integer id){
+  public UserResponse getUserById(Integer id) throws UserNotFoundException{
     Optional<User> userResponse =  userRepository.findById(id);
     if(userResponse.isPresent()){
       return UserConvert.toResponse(userResponse.get());
     } else {
-      throw new RuntimeException("Usuário não encontrado!");
+      throw new UserNotFoundException("Usuário não encontrado!");
     }
   }
 
   @Override
-  public UserResponse getUserByEmail(String email){
+  public UserResponse getUserByEmail(String email) throws EmailNotFoundException{
     User userResponse =  userRepository.findByEmail(email);
     if(userResponse == null){
-      throw new RuntimeException("Email não encontrado!");
+      throw new EmailNotFoundException("Email não encontrado!");
     }
     return UserConvert.toResponse(userRepository.findByEmail(email));
   }
@@ -81,18 +82,19 @@ public class UserService implements IUserService {
   }
 
   @Override
-  public void deleteUser(Integer id){
+  public void deleteUser(Integer id) throws UserNotFoundException {
     Optional<User> userResponse =  userRepository.findById(id);
     if(userResponse.isPresent()){
       userResponse.get().setActive(false);
       userRepository.delete(userResponse.get());
     } else {
-      throw new RuntimeException("Usuário não encontrado!");
+      throw new UserNotFoundException("Usuário não encontrado!");
     }
   }
 
   @Override
-  public UserResponse updateUser(Integer id, UserRequest userRequest){
+  public UserResponse updateUser(Integer id, UserRequest userRequest) throws UserNotFoundException {
+    if (id == null) throw new UserNotFoundException("Usuário não encontrado!");
     User user = UserConvert.toEntity(userRequest);
     user.setId(id);
     User userEntity = userRepository.save(user);

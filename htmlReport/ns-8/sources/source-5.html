@@ -1,0 +1,207 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > UserService</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.ada.meuPrimeiroProjeto.service</a>
+</div>
+
+<h1>Coverage Summary for Class: UserService (com.ada.meuPrimeiroProjeto.service)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">UserService</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    12.5%
+  </span>
+  <span class="absValue">
+    (1/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    8.6%
+  </span>
+  <span class="absValue">
+    (3/35)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.ada.meuPrimeiroProjeto.service;
+&nbsp;
+&nbsp;import com.ada.meuPrimeiroProjeto.controller.exception.EmailNotFoundException;
+&nbsp;import com.ada.meuPrimeiroProjeto.controller.exception.PasswordValidationError;
+&nbsp;import com.ada.meuPrimeiroProjeto.controller.exception.UserNotFoundException;
+&nbsp;import com.ada.meuPrimeiroProjeto.interfaces.IUserService;
+&nbsp;import com.ada.meuPrimeiroProjeto.controller.dto.UserRequest;
+&nbsp;import com.ada.meuPrimeiroProjeto.controller.dto.UserResponse;
+&nbsp;import com.ada.meuPrimeiroProjeto.utils.UserConvert;
+&nbsp;import com.ada.meuPrimeiroProjeto.utils.Validator;
+&nbsp;import java.util.List;
+&nbsp;import com.ada.meuPrimeiroProjeto.model.User;
+&nbsp;import com.ada.meuPrimeiroProjeto.repository.UserRepository;
+&nbsp;import java.util.Optional;
+&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+&nbsp;import org.springframework.security.crypto.password.PasswordEncoder;
+&nbsp;import org.springframework.stereotype.Service;
+&nbsp;
+&nbsp;@Service
+&nbsp;public class UserService implements IUserService {
+&nbsp;
+&nbsp;  private final UserRepository userRepository;
+&nbsp;
+&nbsp;  private final PasswordEncoder passwordEncoder;
+&nbsp;
+&nbsp;  @Autowired
+<b class="fc">&nbsp;  public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {</b>
+<b class="fc">&nbsp;    this.userRepository = userRepository;</b>
+<b class="fc">&nbsp;    this.passwordEncoder = passwordEncoder;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public List&lt;UserResponse&gt; getUsers(){
+<b class="nc">&nbsp;    List&lt;User&gt; userResponse =  userRepository.findAll();</b>
+<b class="nc">&nbsp;    if(userResponse.isEmpty()){</b>
+<b class="nc">&nbsp;      throw new RuntimeException(&quot;Não há usuários cadastrados!&quot;);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return UserConvert.toResponseList(userRepository.findAll());</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public UserResponse saveUser(UserRequest userRequest) throws PasswordValidationError {
+&nbsp;
+<b class="nc">&nbsp;    User user = UserConvert.toEntity(userRequest);</b>
+&nbsp;
+<b class="nc">&nbsp;    if (!Validator.passwordValidate(user.getPassword())) throw new PasswordValidationError(&quot;Senha fora do padrão&quot;);</b>
+<b class="nc">&nbsp;    String encodePassword = passwordEncoder.encode(user.getPassword());</b>
+<b class="nc">&nbsp;    user.setPassword(encodePassword);</b>
+&nbsp;
+<b class="nc">&nbsp;    user.setActive(true);</b>
+<b class="nc">&nbsp;    User userEntity = userRepository.save(user);</b>
+<b class="nc">&nbsp;    return UserConvert.toResponse(userEntity);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public UserResponse getUserById(Integer id) throws UserNotFoundException{
+<b class="nc">&nbsp;    Optional&lt;User&gt; userResponse =  userRepository.findById(id);</b>
+<b class="nc">&nbsp;    if(userResponse.isPresent()){</b>
+<b class="nc">&nbsp;      return UserConvert.toResponse(userResponse.get());</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      throw new UserNotFoundException(&quot;Usuário não encontrado!&quot;);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public UserResponse getUserByEmail(String email) throws EmailNotFoundException{
+<b class="nc">&nbsp;    User userResponse =  userRepository.findByEmail(email);</b>
+<b class="nc">&nbsp;    if(userResponse == null){</b>
+<b class="nc">&nbsp;      throw new EmailNotFoundException(&quot;Email não encontrado!&quot;);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return UserConvert.toResponse(userRepository.findByEmail(email));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public List&lt;UserResponse&gt; getAllByName(String name){
+<b class="nc">&nbsp;    List&lt;User&gt; userResponse =  userRepository.findAllByName(name);</b>
+<b class="nc">&nbsp;    if(userResponse.isEmpty()){</b>
+<b class="nc">&nbsp;      throw new RuntimeException(&quot;Nome não encontrado!&quot;);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return UserConvert.toResponseList(userRepository.findAllByName(name));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public void deleteUser(Integer id){
+<b class="nc">&nbsp;    Optional&lt;User&gt; userResponse =  userRepository.findById(id);</b>
+<b class="nc">&nbsp;    if(userResponse.isPresent()){</b>
+<b class="nc">&nbsp;      userResponse.get().setActive(false);</b>
+<b class="nc">&nbsp;      userRepository.delete(userResponse.get());</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      throw new UserNotFoundException(&quot;Usuário não encontrado!&quot;);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public UserResponse updateUser(Integer id, UserRequest userRequest){
+<b class="nc">&nbsp;    User user = UserConvert.toEntity(userRequest);</b>
+<b class="nc">&nbsp;    user.setId(id);</b>
+<b class="nc">&nbsp;    User userEntity = userRepository.save(user);</b>
+<b class="nc">&nbsp;    return UserConvert.toResponse(userEntity);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-12-17 20:37</div>
+</div>
+</body>
+</html>

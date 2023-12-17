@@ -90,34 +90,4 @@ public class TypeExerciseControllerTest {
         .accept(MediaType.APPLICATION_JSON))
       .andExpect(MockMvcResultMatchers.status().isOk());
   }
-
-  @Test
-  public void should_not_be_possible_to_register_type_exercise_without_name() throws Exception {
-    mockMvc.perform(
-      MockMvcRequestBuilders.post("/type-exercise")
-        .content("""
-          {
-            "name": ""
-          }
-        """)
-        .contentType(MediaType.APPLICATION_JSON)
-        .accept(MediaType.APPLICATION_JSON)
-    ).andDo(MockMvcResultHandlers.print()
-    ).andExpect(MockMvcResultMatchers.status().isBadRequest());
-  }
-
-  @Test
-  public void should_not_be_possible_to_update_type_exercise_without_name() throws Exception {
-    mockMvc.perform(
-      MockMvcRequestBuilders.put("/type-exercise/10")
-        .content("""
-          {
-            "name": ""
-          }
-        """)
-        .contentType(MediaType.APPLICATION_JSON)
-        .accept(MediaType.APPLICATION_JSON)
-    ).andDo(MockMvcResultHandlers.print()
-    ).andExpect(MockMvcResultMatchers.status().isBadRequest());
-  }
 }

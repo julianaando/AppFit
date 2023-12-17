@@ -103,13 +103,22 @@ public class UserControllerTest {
 
 
   @Test
-  public void should_convert_to_entity() throws PasswordValidationError {
-    UserConvert.toEntity(new UserRequest(
-      "Maria",
-      "maria@teste.com",
-      "123456@Maria"
-    ));
+  public void should_not_be_possible_to_register_user_with_invalid_password() throws Exception {
+    Mockito.when(userService.saveUser(Mockito.any())).thenThrow(PasswordValidationError.class);
 
+    mockMvc.perform(
+      MockMvcRequestBuilders.post("/user")
+        .content("""
+          {
+            "name": ["Maria"],
+            "email": ["maria@teste.com"],
+            "password": ["123"],
+          }
+          """)
+        .contentType(MediaType.APPLICATION_JSON)
+        .accept(MediaType.APPLICATION_JSON)
+    ).andDo(MockMvcResultHandlers.print()
+    ).andExpect(MockMvcResultMatchers.status().isBadRequest());
   }
 
  @Test

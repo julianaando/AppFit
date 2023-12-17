@@ -18,14 +18,22 @@ import org.springframework.stereotype.Service;
 @Service
 public class ActivitiesService {
 
-  @Autowired
-  ActivitiesRepository activitiesRepository;
+  private final ActivitiesRepository activitiesRepository;
+
+  private final ExerciseRepository exerciseRepository;
+
+  private final UserRepository userRepository;
 
   @Autowired
-  ExerciseRepository exerciseRepository;
-
-  @Autowired
-  UserRepository userRepository;
+  public ActivitiesService(
+    ActivitiesRepository activitiesRepository,
+    ExerciseRepository exerciseRepository,
+    UserRepository userRepository
+  ) {
+    this.activitiesRepository = activitiesRepository;
+    this.exerciseRepository = exerciseRepository;
+    this.userRepository = userRepository;
+  }
 
   public ActivitiesResponse saveActivities(ActivitiesRequest activitiesRequest) {
     Optional<User> user = userRepository.findById(activitiesRequest.getUserId());
