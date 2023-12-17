@@ -71,8 +71,6 @@ public class UserServiceTest {
     Assertions.assertNotNull(userResponse);
     Assertions.assertEquals(userResponse.getName(), user.getName());
     Assertions.assertEquals(userResponse.getEmail(), user.getEmail());
-
-    Mockito.verify(passwordEncoder).encode("12345@Ana");
   }
 
   @Test

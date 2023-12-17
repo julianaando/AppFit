@@ -19,11 +19,12 @@ public class UserService implements IUserService {
 
   private final UserRepository userRepository;
 
-  PasswordEncoder passwordEncoder;
+  private final PasswordEncoder passwordEncoder;
 
   @Autowired
-  public UserService(UserRepository userRepository) {
+  public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
     this.userRepository = userRepository;
+    this.passwordEncoder = passwordEncoder;
   }
 
 
@@ -41,10 +42,10 @@ public class UserService implements IUserService {
 
     User user = UserConvert.toEntity(userRequest);
 
+    if (!Validator.passwordValidate(user.getPassword())) throw new PasswordValidationError("Senha fora do padrão");
+
     String encodePassword = passwordEncoder.encode(user.getPassword());
     user.setPassword(encodePassword);
-
-    if (!Validator.passwordValidate(user.getPassword())) throw new PasswordValidationError("Senha fora do padrão");
 
     user.setActive(true);
     User userEntity = userRepository.save(user);

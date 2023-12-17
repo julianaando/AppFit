@@ -1,4 +1,3 @@
-/*
 package com.ada.meuPrimeiroProjeto.controller;
 
 import com.ada.meuPrimeiroProjeto.controller.dto.LoginRequest;
@@ -33,13 +32,9 @@ public class AuthController {
         loginRequest.getPassword()
     );
 
-    try {
-      var authentication = authenticationManager.authenticate(auth);
-      var token = tokenService.tokenGenerate((User) authentication.getPrincipal());
-      return ResponseEntity.ok().body(new TokenResponse(token));
-    } catch (AuthenticationException e) {
-      return ResponseEntity.status(401).body("Usuário ou senha incorretos");
-    }
+    var authentication = authenticationManager.authenticate(auth);
+    var token = tokenService.tokenGenerate((User) authentication.getPrincipal());
+
+    return ResponseEntity.ok().body(new TokenResponse(token));
   }
 }
-*/

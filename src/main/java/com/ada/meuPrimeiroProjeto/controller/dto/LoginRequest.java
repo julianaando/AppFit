@@ -1,8 +1,8 @@
-/*
 package com.ada.meuPrimeiroProjeto.controller.dto;
 
 import jakarta.validation.constraints.Email;
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
 public class LoginRequest {
@@ -10,4 +10,3 @@ public class LoginRequest {
   private String email;
   private String password;
 }
-*/

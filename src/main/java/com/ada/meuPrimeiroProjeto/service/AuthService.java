@@ -1,4 +1,3 @@
-/*
 package com.ada.meuPrimeiroProjeto.service;
 
 import com.ada.meuPrimeiroProjeto.repository.UserRepository;
@@ -11,12 +10,15 @@ import org.springframework.stereotype.Service;
 @Service
 public class AuthService implements UserDetailsService {
 
+  private final UserRepository userRepository;
+
   @Autowired
-  private UserRepository userRepository;
+  public AuthService(UserRepository userRepository) {
+    this.userRepository = userRepository;
+  }
 
   @Override
   public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
     return userRepository.findByEmail(email);
   }
 }
-*/
