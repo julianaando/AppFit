@@ -13,13 +13,14 @@ Entre na pasta que você acabou de clonar, e instale as dependências
 ```
 mvn install
 ```
-Suba o container do docker
+
+Suba o container do Docker para iniciar o banco de dados e outros serviços necessários
 ```
 docker-compose up
 ```
-Rode o projeto para verificar ...
+Este comando iniciará os containers especificados no arquivo docker-compose.yml, incluindo o banco de dados PostgreSQL.
 
-TODO: pode testar com o POSTMAN
+Aguarde até que todos os serviços estejam prontos para serem utilizados e rode o projeto.
 
 ### 📝 Proposta:
 Criação de uma API REST que simula um aplicativo de controle de atividades físicas, filtradas por data e tipos de exercícios.<br>
@@ -31,6 +32,14 @@ Testes unitários para a parte lógica.<br>
 Testes de integração para repositórios e web.<br>
 Teste [end-to-end](https://github.com/julianaando/Appfit-tests) através da ferramenta Cucumber.<br>
 
+----
+
+## Endpoints:
+/user<br>
+/login<br>
+/type-exercise<br>
+/exercise<br>
+/activities<br>
 ----
 ### 💡 Conhecimentos aplicados:
 
