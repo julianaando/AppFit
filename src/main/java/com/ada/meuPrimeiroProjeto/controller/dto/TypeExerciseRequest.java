@@ -14,7 +14,4 @@ public class TypeExerciseRequest {
 
   @NotBlank()
   private String name;
-/*
-  private String name;
-*/
 }

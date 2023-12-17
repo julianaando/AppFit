@@ -1,7 +1,10 @@
-package com.ada.meuPrimeiroProjeto.integration.controller.user;
+package com.ada.meuPrimeiroProjeto.integration.controller;
 
+import com.ada.meuPrimeiroProjeto.controller.dto.UserRequest;
 import com.ada.meuPrimeiroProjeto.controller.dto.UserResponse;
+import com.ada.meuPrimeiroProjeto.controller.exception.PasswordValidationError;
 import com.ada.meuPrimeiroProjeto.service.UserService;
+import com.ada.meuPrimeiroProjeto.utils.UserConvert;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -99,6 +102,15 @@ public class UserControllerTest {
   }
 
 
+  @Test
+  public void should_convert_to_entity() throws PasswordValidationError {
+    UserConvert.toEntity(new UserRequest(
+      "Maria",
+      "maria@teste.com",
+      "123456@Maria"
+    ));
+
+  }
 
  @Test
   public void should_list_all_users() throws Exception {

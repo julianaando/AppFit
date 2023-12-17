@@ -1,4 +1,4 @@
-package com.ada.meuPrimeiroProjeto.integration.controller.exercise;
+package com.ada.meuPrimeiroProjeto.integration.controller;
 
 import com.ada.meuPrimeiroProjeto.controller.dto.ExerciseResponse;
 import com.ada.meuPrimeiroProjeto.controller.dto.TypeExerciseResponse;
