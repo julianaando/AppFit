@@ -66,6 +66,39 @@ public class UserControllerTest {
     ).andExpect(MockMvcResultMatchers.status().isBadRequest());
   }
 
+  @Test
+  public void should_not_be_possible_to_register_user_without_email() throws Exception {
+    mockMvc.perform(
+      MockMvcRequestBuilders.post("/user")
+        .content("""
+          {
+            "name": ["Maria"],
+            "password": ["123456@Maria"],
+          }
+          """)
+        .contentType(MediaType.APPLICATION_JSON)
+        .accept(MediaType.APPLICATION_JSON)
+    ).andDo(MockMvcResultHandlers.print()
+    ).andExpect(MockMvcResultMatchers.status().isBadRequest());
+  }
+
+  @Test
+  public void should_not_be_possible_to_register_user_without_password() throws Exception {
+    mockMvc.perform(
+      MockMvcRequestBuilders.post("/user")
+        .content("""
+          {
+            "name": ["Maria"],
+            "email": ["maria@test.com"],
+          }
+          """)
+        .contentType(MediaType.APPLICATION_JSON)
+        .accept(MediaType.APPLICATION_JSON)
+    ).andDo(MockMvcResultHandlers.print()
+    ).andExpect(MockMvcResultMatchers.status().isBadRequest());
+  }
+
+
 
  @Test
   public void should_list_all_users() throws Exception {
@@ -80,5 +113,21 @@ public class UserControllerTest {
         .contentType(MediaType.APPLICATION_JSON)
     ).andExpect(MockMvcResultMatchers.status().isOk()
     ).andExpect(MockMvcResultMatchers.jsonPath("$[0].name").value("Maria"));
+  }
+
+  @Test
+  public void should_get_user_by_id() throws Exception {
+    UserResponse user = new UserResponse();
+    user.setId(10);
+    user.setName("Maria");
+    user.setEmail("maria@test.com");
+
+    Mockito.when(userService.getUserById(Mockito.anyInt())).thenReturn(user);
+
+    mockMvc.perform(
+      MockMvcRequestBuilders.get("/user/10")
+        .contentType(MediaType.APPLICATION_JSON)
+    ).andExpect(MockMvcResultMatchers.status().isOk()
+    ).andExpect(MockMvcResultMatchers.jsonPath("$.name").value("Maria"));
   }
 }
