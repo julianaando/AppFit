@@ -2,6 +2,7 @@ package com.ada.meuPrimeiroProjeto.service;
 
 import com.ada.meuPrimeiroProjeto.controller.dto.TypeExerciseRequest;
 import com.ada.meuPrimeiroProjeto.controller.dto.TypeExerciseResponse;
+import com.ada.meuPrimeiroProjeto.interfaces.ITypeExerciseService;
 import com.ada.meuPrimeiroProjeto.model.TypeExercise;
 import com.ada.meuPrimeiroProjeto.repository.TypeExerciseRepository;
 import com.ada.meuPrimeiroProjeto.utils.TypeExerciseConvert;
@@ -11,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class TypeExerciseService {
+public class TypeExerciseService implements ITypeExerciseService {
 
   private final TypeExerciseRepository typeExerciseRepository;
 
@@ -20,10 +21,12 @@ public class TypeExerciseService {
     this.typeExerciseRepository = typeExerciseRepository;
   }
 
+  @Override
   public List<TypeExerciseResponse> getAllTypeExercises(){
     return TypeExerciseConvert.toResponseList(typeExerciseRepository.findAll());
   }
 
+  @Override
   public TypeExerciseResponse saveTypeExercise(TypeExerciseRequest typeExerciseRequest){
     TypeExercise typeExercise = TypeExerciseConvert.toEntity(typeExerciseRequest);
     if (typeExercise.getName() == null) {
@@ -32,6 +35,7 @@ public class TypeExerciseService {
     return TypeExerciseConvert.toResponse(typeExerciseRepository.save(typeExercise));
   }
 
+  @Override
   public TypeExerciseResponse updateTypeExercise(Integer id, TypeExerciseRequest typeExerciseRequest) {
     TypeExercise type = TypeExerciseConvert.toEntity(typeExerciseRequest);
     type.setId(id);
@@ -39,6 +43,7 @@ public class TypeExerciseService {
     return TypeExerciseConvert.toResponse(typeEntity);
   }
 
+  @Override
   public void deleteTypeExercise(Integer id){
     Optional<TypeExercise> typeExerciseResponse = typeExerciseRepository.findById(id);
     if (typeExerciseResponse.isPresent()) {

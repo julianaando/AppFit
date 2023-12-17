@@ -4,6 +4,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import java.util.Collection;
 import java.util.List;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import jakarta.persistence.Id;
@@ -16,10 +17,11 @@ import org.hibernate.annotations.Where;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter @Setter
+@Getter
+@Setter
 @Entity
 @Table(name = "users")
-@Where(clause = "active is true")
+@Where(clause = "active = true")
 public class User {
 
   @Id
@@ -29,7 +31,7 @@ public class User {
   @Column(name = "name", nullable = false)
   private String name;
 
-  @Column(name = "email", nullable = false, unique = true)
+  @Column(name = "email", nullable = false)
   private String email;
 
   @Column(name = "password", nullable = false)

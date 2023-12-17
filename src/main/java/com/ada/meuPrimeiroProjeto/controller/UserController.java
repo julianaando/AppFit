@@ -2,6 +2,8 @@ package com.ada.meuPrimeiroProjeto.controller;
 
 import com.ada.meuPrimeiroProjeto.controller.dto.UserRequest;
 import com.ada.meuPrimeiroProjeto.controller.dto.UserResponse;
+import com.ada.meuPrimeiroProjeto.controller.exception.PasswordValidationError;
+import com.ada.meuPrimeiroProjeto.interfaces.IUserService;
 import jakarta.validation.Valid;
 import java.net.URI;
 import java.util.List;
@@ -14,10 +16,10 @@ import com.ada.meuPrimeiroProjeto.service.UserService;
 @RequestMapping("/user")
 public class UserController {
 
-  private final UserService userService;
+  private final IUserService userService;
 
   @Autowired
-  public UserController(UserService userService){
+  public UserController(IUserService userService){
     this.userService = userService;
   }
 
@@ -28,8 +30,8 @@ public class UserController {
 
   @PostMapping
   public ResponseEntity<UserResponse> saveUser(
-      @RequestBody UserRequest userRequest
-  ) {
+      @Valid @RequestBody UserRequest userRequest
+  ) throws PasswordValidationError {
     UserResponse user =  userService.saveUser(userRequest);
     return ResponseEntity.created(URI.create("/user/"+user.getId())).body(user);
   }

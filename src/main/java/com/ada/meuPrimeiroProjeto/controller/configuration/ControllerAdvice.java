@@ -1,4 +1,3 @@
-/*
 package com.ada.meuPrimeiroProjeto.controller.configuration;
 
 import com.ada.meuPrimeiroProjeto.controller.exception.PasswordValidationError;
@@ -17,8 +16,13 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
 public class ControllerAdvice {
+
+  private final MessageSource messageSource;
+
   @Autowired
-  private MessageSource messageSource;
+  public ControllerAdvice(MessageSource messageSource) {
+    this.messageSource = messageSource;
+  }
 
   @ResponseStatus(code = HttpStatus.BAD_REQUEST)
   @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -37,8 +41,7 @@ public class ControllerAdvice {
 
   @ResponseStatus(code = HttpStatus.BAD_REQUEST)
   @ExceptionHandler(PasswordValidationError.class)
-  public String handlerPassword(PasswordValidationError exception) {
+  public String handlerPassword(PasswordValidationError exception){
     return exception.getDescription();
   }
 }
-*/

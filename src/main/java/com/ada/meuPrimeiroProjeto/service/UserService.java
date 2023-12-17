@@ -1,29 +1,31 @@
 package com.ada.meuPrimeiroProjeto.service;
 
+import com.ada.meuPrimeiroProjeto.controller.exception.PasswordValidationError;
 import com.ada.meuPrimeiroProjeto.interfaces.IUserService;
 import com.ada.meuPrimeiroProjeto.controller.dto.UserRequest;
 import com.ada.meuPrimeiroProjeto.controller.dto.UserResponse;
 import com.ada.meuPrimeiroProjeto.utils.UserConvert;
+import com.ada.meuPrimeiroProjeto.utils.Validator;
 import java.util.List;
 import com.ada.meuPrimeiroProjeto.model.User;
 import com.ada.meuPrimeiroProjeto.repository.UserRepository;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
-
 public class UserService implements IUserService {
 
   private final UserRepository userRepository;
+
+  PasswordEncoder passwordEncoder;
 
   @Autowired
   public UserService(UserRepository userRepository) {
     this.userRepository = userRepository;
   }
 
-/*  @Autowired
-  PasswordEncoder passwordEncoder;*/
 
   @Override
   public List<UserResponse> getUsers(){
@@ -35,16 +37,16 @@ public class UserService implements IUserService {
   }
 
   @Override
-  public UserResponse saveUser(UserRequest userRequest) {
+  public UserResponse saveUser(UserRequest userRequest) throws PasswordValidationError {
+
     User user = UserConvert.toEntity(userRequest);
 
-/*    String encodePassword = passwordEncoder.encode(user.getPassword());
-    user.setPassword(encodePassword);*/
+    String encodePassword = passwordEncoder.encode(user.getPassword());
+    user.setPassword(encodePassword);
+
+    if (!Validator.passwordValidate(user.getPassword())) throw new PasswordValidationError("Senha fora do padrão");
 
     user.setActive(true);
-/*
-    if(!Validator.passwordValidate(user.getPassword())) throw new PasswordValidationError("Senha fora do padrão");
-*/
     User userEntity = userRepository.save(user);
     return UserConvert.toResponse(userEntity);
   }

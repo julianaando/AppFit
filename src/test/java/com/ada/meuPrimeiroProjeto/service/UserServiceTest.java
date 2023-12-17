@@ -2,11 +2,13 @@ package com.ada.meuPrimeiroProjeto.service;
 
 import com.ada.meuPrimeiroProjeto.controller.dto.UserRequest;
 import com.ada.meuPrimeiroProjeto.controller.dto.UserResponse;
+import com.ada.meuPrimeiroProjeto.controller.exception.PasswordValidationError;
 import com.ada.meuPrimeiroProjeto.model.User;
 import com.ada.meuPrimeiroProjeto.repository.UserRepository;
 
 import java.util.List;
 import java.util.Optional;
+import org.apache.coyote.BadRequestException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,6 +16,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @ExtendWith(SpringExtension.class)
@@ -23,6 +26,9 @@ public class UserServiceTest {
   @Mock
   private UserRepository userRepository;
 
+  @Mock
+  private PasswordEncoder passwordEncoder;
+
   @InjectMocks
   private UserService userService;
 
@@ -30,17 +36,19 @@ public class UserServiceTest {
   @BeforeEach
   public void setUp() {
     user = new User();
-
+    Mockito.when(passwordEncoder.encode(Mockito.anyString())).thenReturn("senhaCodificada");
   }
 
   @Test
   public void test_get_users_success() {
-    Mockito.when(userRepository.findAll()).thenReturn(List.of(user));
+    List<User> mockUserList = List.of(user);
+    Mockito.when(userRepository.findAll()).thenReturn(mockUserList);
 
     List<UserResponse> userResponseList = userService.getUsers();
 
     Assertions.assertNotNull(userResponseList);
     Assertions.assertFalse(userResponseList.isEmpty());
+    Assertions.assertEquals(userResponseList.size(), mockUserList.size());
   }
 
   @Test
@@ -51,7 +59,7 @@ public class UserServiceTest {
   }
 
   @Test
-  public void test_save_user_success() {
+  public void test_save_user_success() throws PasswordValidationError {
     Mockito.when(userRepository.save(Mockito.any())).thenReturn(user);
 
     UserResponse userResponse = userService.saveUser(new UserRequest(
@@ -61,6 +69,10 @@ public class UserServiceTest {
     ));
 
     Assertions.assertNotNull(userResponse);
+    Assertions.assertEquals(userResponse.getName(), user.getName());
+    Assertions.assertEquals(userResponse.getEmail(), user.getEmail());
+
+    Mockito.verify(passwordEncoder).encode("12345@Ana");
   }
 
   @Test
@@ -81,6 +93,7 @@ public class UserServiceTest {
     UserResponse userResponse = userService.getUserByEmail("ana@email.com");
 
     Assertions.assertNotNull(userResponse);
+    Assertions.assertEquals(userResponse.getEmail(), user.getEmail());
   }
 
   @Test
@@ -115,14 +128,15 @@ public class UserServiceTest {
       UserResponse userResponse = userService.getUserById(1);
 
       Assertions.assertNotNull(userResponse);
+      Assertions.assertEquals(userResponse.getId(), user.getId());
   }
 
   @Test
   public void test_get_user_by_id_fail() {
-      Mockito.when(userRepository.findById(Mockito.anyInt()))
-        .thenReturn(Optional.empty());
+    Mockito.when(userRepository.findById(Mockito.anyInt()))
+      .thenReturn(Optional.empty());
 
-      Assertions.assertThrows(RuntimeException.class, () -> userService.getUserById(1));
+    Assertions.assertThrows(RuntimeException.class, () -> userService.getUserById(1));
   }
 
   @Test
@@ -133,6 +147,7 @@ public class UserServiceTest {
     userService.deleteUser(1);
 
     Assertions.assertFalse(user.getActive());
+    Assertions.assertNull(user.getId());
   }
 
   @Test
@@ -158,7 +173,6 @@ public class UserServiceTest {
     ));
 
     Assertions.assertNotNull(userResponse);
-
   }
 
   @Test
