@@ -6,6 +6,7 @@ import com.ada.meuPrimeiroProjeto.controller.dto.TypeExerciseRequest;
 import com.ada.meuPrimeiroProjeto.controller.dto.TypeExerciseResponse;
 import com.ada.meuPrimeiroProjeto.model.TypeExercise;
 import com.ada.meuPrimeiroProjeto.repository.TypeExerciseRepository;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -52,6 +53,15 @@ public class TypeExerciseServiceTest {
   }
 
   @Test
+  public void test_save_type_exercise_fail() {
+    Assertions.assertThrows(IllegalArgumentException.class,
+      () -> typeExerciseService.saveTypeExercise(new TypeExerciseRequest(
+        null
+      ))
+    );
+  }
+
+  @Test
   public void test_update_type_exercise_success() {
     int typeId = 1;
     TypeExerciseRequest typeExerciseRequest = new TypeExerciseRequest("UpdatedType");
@@ -81,6 +91,13 @@ public class TypeExerciseServiceTest {
     typeExerciseService.deleteTypeExercise(typeId);
 
     Mockito.verify(typeExerciseRepository, Mockito.times(1)).delete(existingTypeExercise);
+  }
+
+  @Test
+  public void test_delete_type_exercise_fail() {
+    Mockito.when(typeExerciseRepository.findById(0)).thenReturn(Optional.empty());
+
+    assertThrows(RuntimeException.class, () -> typeExerciseService.deleteTypeExercise(0));
   }
 
 }

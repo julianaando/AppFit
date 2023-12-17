@@ -8,6 +8,7 @@ import com.ada.meuPrimeiroProjeto.controller.exception.UserNotFoundException;
 import com.ada.meuPrimeiroProjeto.model.User;
 import com.ada.meuPrimeiroProjeto.repository.UserRepository;
 
+import com.ada.meuPrimeiroProjeto.utils.UserConvert;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -22,6 +23,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.util.Assert;
 
 @ExtendWith(SpringExtension.class)
 public class UserServiceTest {
@@ -110,6 +112,22 @@ public class UserServiceTest {
     Assertions.assertThrows(UserNotFoundException.class,
       () -> userService.deleteUser(0)
     );
+  }
+
+  @Test
+  public void test_delete_user_success() {
+    User user = new User();
+    user.setId(1);
+    user.setName("Teste");
+    user.setEmail("email@teste.com");
+    user.setPassword("123@Teste");
+
+    Mockito.when(userRepository.findById(Mockito.anyInt())).thenReturn(Optional.of(user));
+
+    userService.deleteUser(1);
+    user.setActive(false);
+
+    Assertions.assertFalse(user.getActive());
   }
 
   @Test
